@@ -1,0 +1,171 @@
+swagger: '2.0'
+######################################################
+# Prolog
+######################################################
+info:
+  version: "v1.0"
+  title: "WSO2 User Management Remote API"
+  description: |
+    This document specifies a **RESTful API** for WSO2 **User Information Recovery**.
+
+    It is written with [swagger 2](http://swagger.io/).
+
+  contact:
+    name: "WSO2"
+    url: "http://wso2.com/products/api-manager/"
+    email: "architecture@wso2.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+######################################################
+# The fixed parts of the URLs of the API
+######################################################
+
+# The schemes supported by the API
+schemes:
+  - https
+  - http
+
+# The domain of the API.
+# This is configured by the customer during deployment.
+# The given host is just an example.
+host: apis.wso2.com
+
+# The base path of the API.
+# Will be prefixed to all paths.
+basePath: /api/identity/recovery/v1.0
+
+# The following media types can be passed as input in message bodies of the API.
+# The actual media type must be specified in the Content-Type header field of the request.
+# The default is json, i.e. the Content-Type header is not needed to
+# be set, but supporting it serves extensibility.
+consumes:
+  - application/json
+
+# The following media types may be passed as output in message bodies of the API.
+# The media type(s) consumable by the requestor is specified in the Accept header field
+# of the corresponding request.
+# The actual media type returned will be specfied in the Content-Type header field
+# of the of the response.
+# The default of the Accept header is json, i.e. there is not needed to
+# set the value, but supporting it serves extensibility.
+produces:
+  - application/json
+
+######################################################
+# The "Password Reset" resource APIs
+######################################################
+paths:
+ '/password-reset/notify':
+
+#-----------------------------------------------------
+# Reset password
+#-----------------------------------------------------
+    post:
+      summary: Notify user via email
+      description: |
+        Notify password reset link to user via an email
+      tags:
+        - Password Reset Notify
+      parameters:
+        - in: body
+          name: notifyRequest
+          description: |
+            Request to notify password reset.
+          schema:
+            $ref: '#/definitions/NotifyRequest'
+      responses:
+        '200':
+          description: Successfully sent
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+ '/password-reset/initiate':
+#-----------------------------------------------------
+# Initiate password reset
+#-----------------------------------------------------
+    post:
+      summary: Initiate password reset
+      description: |
+        Initiate password reset by generating a confirmation code
+      tags:
+        - Password Reset Initiate
+      parameters:
+        - in: body
+          name: initiateRequest
+          description: |
+            Request to initiate password reset.
+          schema:
+            $ref: '#/definitions/InitiateRequest'
+      responses:
+        '200':
+          description: Successfully sent
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+######################################################
+# The resources used by some of the APIs above within the message body
+######################################################
+
+definitions:
+#-----------------------------------------------------
+# The Error Response object
+#-----------------------------------------------------
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      httpStatusCode:
+        type: integer
+      message:
+        type: string
+      description:
+        type: string
+      moreInfo:
+        type: string
+
+#-----------------------------------------------------
+# The Notify Request object
+#-----------------------------------------------------
+  NotifyRequest:
+    type: object
+    properties:
+      confirmationCode:
+        type: string
+      username:
+        type: string
+      host:
+        type: string
+      port:
+        type: string
+      emailUsername:
+        type: string
+      emailPassword:
+        type: string
+      from:
+        type: string
+      to:
+        type: string
+
+#-----------------------------------------------------
+# The Initiate Request object
+#-----------------------------------------------------
+  InitiateRequest:
+    type: object
+    properties:
+      username:
+        type: string
