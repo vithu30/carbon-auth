@@ -101,11 +101,6 @@
             <groupId>org.wso2.carbon.auth</groupId>
             <artifactId>org.wso2.carbon.auth.user.info.recovery</artifactId>
         </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1.1</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -171,7 +166,6 @@
             </plugin>
         </plugins>
     </build>
-
     <properties>
         <import.package>
             org.wso2.msf4j.*; version="${msf4j.package.import.version.range}",
@@ -194,5 +188,4 @@
             osgi.service; objectClass="org.wso2.msf4j.Microservice"; serviceCount="1"
         </carbon.component>
     </properties>
-
 </project>

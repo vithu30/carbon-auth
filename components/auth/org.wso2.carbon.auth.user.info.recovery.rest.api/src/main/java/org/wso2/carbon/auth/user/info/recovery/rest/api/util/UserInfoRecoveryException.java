@@ -22,11 +22,10 @@ import org.wso2.carbon.auth.core.exception.AuthException;
 
 /**
  * Class to handle User Info Recovery Exceptions
- *
  */
 public class UserInfoRecoveryException extends AuthException {
 
-    public UserInfoRecoveryException(String message, Throwable error) {
+    UserInfoRecoveryException(String message, Throwable error) {
         super(message, error);
     }
 }

@@ -34,7 +34,6 @@ import javax.ws.rs.core.Response;
 
 /**
  * REST API implementation class for Password Reset APIs
- *
  */
 public class PasswordResetApiServiceImpl extends PasswordResetApiService {
     private static final Logger log = LoggerFactory.getLogger(PasswordResetApiServiceImpl.class);
@@ -49,9 +48,9 @@ public class PasswordResetApiServiceImpl extends PasswordResetApiService {
     @Override
     public Response passwordResetInitiatePost(InitiateRequestDTO initiateRequest, Request request)
             throws NotFoundException {
-//        String username = initiateRequest.getUsername();
         RandomCodeGenerator codeGenerator = new RandomCodeGenerator();
         char[] confirmationCode = codeGenerator.generateCode();
+
         return Response.status(Response.Status.OK).entity(String.copyValueOf(confirmationCode)).build();
     }
 

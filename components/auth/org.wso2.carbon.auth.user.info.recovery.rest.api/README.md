@@ -16,7 +16,7 @@ mvn clean package jetty:run
 You can then view the swagger listing here:
 
 ```
-http://localhost:8080/api/identity/scim2/v1.0/swagger.json
+http://localhost:8080/api/identity/recovery/v1.0/swagger.json
 ```
 
 Note that if you have configured the `host` to be something other than localhost, the calls through

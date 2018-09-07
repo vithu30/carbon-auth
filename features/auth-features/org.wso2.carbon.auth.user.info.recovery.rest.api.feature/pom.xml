@@ -77,12 +77,6 @@
                                     <version>${carbon.auth.version}</version>
                                 </bundle>
                             </bundles>
-                            <!--<importFeatures>-->
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.carbon.auth.core.feature</id>-->
-                                    <!--<version>${carbon.auth.version}</version>-->
-                                <!--</feature>-->
-                            <!--</importFeatures>-->
                         </configuration>
                     </execution>
                 </executions>

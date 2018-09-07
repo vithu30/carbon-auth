@@ -37,14 +37,12 @@ public class RandomCodeGenerator {
     public char[] generateCode() {
         String characters = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";
         int mandatoryCharactersCount = 3;
-
         StringBuilder confirmationCode = new StringBuilder();
         int index;
         for (int i = 0; i < CodeGenerationConstants.CODE_LENGTH - mandatoryCharactersCount; i++) {
             index = RANDOM.nextInt(characters.length());
             confirmationCode.append(characters.charAt(index));
         }
-
         index = RANDOM.nextInt(CodeGenerationConstants.DIGITS.length());
         confirmationCode.append(CodeGenerationConstants.DIGITS.charAt(index));
 
@@ -58,5 +56,4 @@ public class RandomCodeGenerator {
         confirmationCode.getChars(0, confirmationCode.length(), password, 0);
         return password;
     }
-
 }

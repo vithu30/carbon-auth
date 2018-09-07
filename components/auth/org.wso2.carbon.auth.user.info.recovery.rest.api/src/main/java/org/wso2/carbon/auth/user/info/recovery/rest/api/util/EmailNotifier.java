@@ -42,7 +42,6 @@ import static org.wso2.carbon.auth.user.info.recovery.rest.api.util.RecoveryREST
  * This class is used to send email notification.
  */
 public class EmailNotifier {
-
     /**
      * Send email with provided configurations
      *
@@ -79,8 +78,8 @@ public class EmailNotifier {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = loader
                 .getResourceAsStream(NotificationConstants.EMAIL_TEMPLATE_PATH);
-        String[] keys = {"{username}", "{resetLink}"};
-        String[] values = {username, confirmationCode };
+        String[] keys = {"{username}", "{confirmationCode}"};
+        String[] values = {username, confirmationCode};
         String content = IOUtils.toString(inputStream);
         return StringUtils.replaceEach(content, keys, values);
     }
@@ -91,12 +90,10 @@ public class EmailNotifier {
     private static class SMTPAuthenticator extends Authenticator {
         private String username;
         private String password;
-
         private SMTPAuthenticator(String username, String password) {
             this.username = username;
             this.password = password;
         }
-
         public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(username, password);
         }
