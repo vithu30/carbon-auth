@@ -288,6 +288,16 @@
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.auth</groupId>
+                <artifactId>org.wso2.carbon.auth.user.info.recovery</artifactId>
+                <version>${carbon.auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.auth</groupId>
+                <artifactId>org.wso2.carbon.auth.user.info.recovery.rest.api</artifactId>
+                <version>${carbon.auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.auth</groupId>
                 <artifactId>org.wso2.carbon.auth.user.info</artifactId>
                 <version>${carbon.auth.version}</version>
             </dependency>
@@ -340,6 +350,11 @@
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>${javax.mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${java-mail.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -655,6 +670,8 @@
         <io.swagger.import.version.range>[1.5.0, 1.6.0)</io.swagger.import.version.range>
         <!-- Jacoco for code coverage -->
         <jacoco.version>0.8.0</jacoco.version>
+        <java-mail.version>1.4.7</java-mail.version>
+        <java-mail.version.range>[1.4.7,1.5.2)</java-mail.version.range>
     </properties>
 
 </project>

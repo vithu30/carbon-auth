@@ -52,11 +52,12 @@ public class EmailNotifier {
      * @param from Sender's email address
      * @param to Recipcient's email address
      */
-    public  void sendNotification(Properties properties, String username, String password, String from, String to) {
-
+    public void sendNotification(Properties properties, String username, String password, String from, String to,
+                                 String confirmationCode)
+            throws UserInfoRecoveryException {
         try {
-            Authenticator auth = new SMTPAuthenticator();
-            String content = loadEmailContent(username);
+            Authenticator auth = new SMTPAuthenticator(username, password);
+            String content = loadEmailContent(username, confirmationCode);
             Session session = Session.getInstance(properties, auth);
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
@@ -67,20 +68,19 @@ public class EmailNotifier {
             DataHandler handler = new DataHandler(dataSource);
             message.setDataHandler(handler);
             Transport.send(message);
-
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UserInfoRecoveryException("Error while retrieving email template", e);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new UserInfoRecoveryException("Error while sending mail to user: " + username, e);
         }
     }
 
-    private  String loadEmailContent(String username) throws IOException {
+    private String loadEmailContent(String username, String confirmationCode) throws IOException {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = loader
                 .getResourceAsStream(NotificationConstants.EMAIL_TEMPLATE_PATH);
-        String[] keys = {"{username}", "{resetLink}" };
-        String[] values = {username, "" };
+        String[] keys = {"{username}", "{resetLink}"};
+        String[] values = {username, confirmationCode };
         String content = IOUtils.toString(inputStream);
         return StringUtils.replaceEach(content, keys, values);
     }
@@ -89,7 +89,15 @@ public class EmailNotifier {
      * Class to Authenticate User.
      */
     private static class SMTPAuthenticator extends Authenticator {
-        public PasswordAuthentication getPasswordAuthentication(String username, String password) {
+        private String username;
+        private String password;
+
+        private SMTPAuthenticator(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(username, password);
         }
     }

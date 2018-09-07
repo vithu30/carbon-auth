@@ -26,6 +26,7 @@ import org.wso2.carbon.auth.user.info.recovery.rest.api.dto.InitiateRequestDTO;
 import org.wso2.carbon.auth.user.info.recovery.rest.api.dto.NotifyRequestDTO;
 import org.wso2.carbon.auth.user.info.recovery.rest.api.util.EmailNotifier;
 import org.wso2.carbon.auth.user.info.recovery.rest.api.util.RandomCodeGenerator;
+import org.wso2.carbon.auth.user.info.recovery.rest.api.util.UserInfoRecoveryException;
 import org.wso2.msf4j.Request;
 
 import java.util.Properties;
@@ -58,17 +59,21 @@ public class PasswordResetApiServiceImpl extends PasswordResetApiService {
     public Response passwordResetNotifyPost(NotifyRequestDTO notifyRequest, Request request) throws NotFoundException {
         String host = notifyRequest.getHost();
         String port = notifyRequest.getPort();
-
         Properties properties = new Properties();
         properties.setProperty(MAIL_SMTP_AUTH, "true");
         properties.put(MAIL_SMTP_START_TLS_ENABLE, "true");
         properties.put(MAIL_SMTP_HOST, host);
         properties.put(MAIL_SMTP_PORT, port);
         properties.put(MAIL_SMTP_SSL_TRUST, "smtp.gmail.com");
-
-        EmailNotifier emailNotifier = new EmailNotifier();
-        emailNotifier.sendNotification(properties, notifyRequest.getEmailUsername(), notifyRequest.getEmailPassword(),
-                notifyRequest.getFrom(), notifyRequest.getTo());
-        return Response.status(Response.Status.OK).entity(SUCCESS_MESSAGE).build();
+        try {
+            EmailNotifier emailNotifier = new EmailNotifier();
+            emailNotifier.sendNotification(properties, notifyRequest.getEmailUsername(),
+                    notifyRequest.getEmailPassword(), notifyRequest.getFrom(), notifyRequest.getTo(),
+                    notifyRequest.getConfirmationCode());
+            return Response.status(Response.Status.OK).entity(SUCCESS_MESSAGE).build();
+        } catch (UserInfoRecoveryException e) {
+            log.error("Error while sending recovery notification to : " + notifyRequest.getUsername());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
     }
 }

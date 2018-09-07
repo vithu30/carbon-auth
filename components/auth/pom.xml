@@ -49,5 +49,6 @@
         <module>org.wso2.carbon.auth.user.store</module>
         <module>org.wso2.carbon.auth.scim</module>
         <module>org.wso2.carbon.auth.scim.rest.api</module>
+        <module>org.wso2.carbon.auth.user.info.recovery.rest.api</module>
     </modules>
 </project>

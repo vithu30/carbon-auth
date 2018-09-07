@@ -30,13 +30,13 @@ public class RandomCodeGenerator {
     private static final Random RANDOM = new SecureRandom();
 
     /**
-     * Generate a confirmation code with length of 12
+     * Generate a confirmation code with length of 8
      *
      * @return char[] confirmationCode
      */
     public char[] generateCode() {
-        String characters = "234567890ABCDEFGHJKMNPQRSTUVWXYZ";
-        int mandatoryCharactersCount = 2;
+        String characters = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";
+        int mandatoryCharactersCount = 3;
 
         StringBuilder confirmationCode = new StringBuilder();
         int index;
@@ -48,8 +48,11 @@ public class RandomCodeGenerator {
         index = RANDOM.nextInt(CodeGenerationConstants.DIGITS.length());
         confirmationCode.append(CodeGenerationConstants.DIGITS.charAt(index));
 
-        index = RANDOM.nextInt(CodeGenerationConstants.ALPHABETS.length());
-        confirmationCode.append(CodeGenerationConstants.ALPHABETS.charAt(index));
+        index = RANDOM.nextInt(CodeGenerationConstants.UPPER_CASE_ALPHABETS.length());
+        confirmationCode.append(CodeGenerationConstants.UPPER_CASE_ALPHABETS.charAt(index));
+
+        index = RANDOM.nextInt(CodeGenerationConstants.LOWER_CASE_ALPHABETS.length());
+        confirmationCode.append(CodeGenerationConstants.LOWER_CASE_ALPHABETS.charAt(index));
 
         char[] password = new char[confirmationCode.length()];
         confirmationCode.getChars(0, confirmationCode.length(), password, 0);
